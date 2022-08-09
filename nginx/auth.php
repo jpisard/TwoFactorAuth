@@ -84,6 +84,10 @@ session_start();
 //====================================================
 // Check if the authentication has been completed
 if (isset($_SESSION["authenticated"]) && $_SESSION["authenticated"] === true) {
+        // pass authenticated username back up the stack to nginx - so it can
+	// be passed on to the protected application.
+	$userheader = "X-Auth-User: " . $_SESSION["username"];
+	header($userheader);
 	http_response_code(200);
 }
 else {
